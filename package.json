@@ -1,7 +1,6 @@
 {
   "name": "avans_studentenhuis",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "dependencies": {
     "express": "^4.16.3",
@@ -20,5 +19,6 @@
   "bugs": {
     "url": "https://github.com/JvZuidam/Avans_Studentenhuis/issues"
   },
-  "homepage": "https://github.com/JvZuidam/Avans_Studentenhuis#readme"
+  "homepage": "https://github.com/JvZuidam/Avans_Studentenhuis#readme",
+  "description": ""
 }
