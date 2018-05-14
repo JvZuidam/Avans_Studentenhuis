@@ -1,5 +1,5 @@
 const app = new require("express")();
-const mysql = require("mysql");
+
 
 app.get("*", (req, res, next) => {
     console.log(req.url);
@@ -22,23 +22,4 @@ app.get("*", (req, res) => {
 const port = 8088;
 app.listen(port, () => {
     console.log("The magic happens at port " + port);
-});
-
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'usbw',
-    database: 'studentenhuis'
-})
-
-connection.connect();
-
-connection.query('SELECT * from studentenhuis', (err, rows, fields) => {
-    if(err) {
-        console.log('Error: ' + err)
-    }
-    if(rows) {
-        console.log('We got rows!');
-        console.dir(rows)
-    }
 });
