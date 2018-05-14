@@ -9,4 +9,5 @@ router.get("/hello", (request, result) => {
 router.get("/goodnight", (request, result) => {
     result.json("Goodnight World!");
 });
+
 module.exports = router;
