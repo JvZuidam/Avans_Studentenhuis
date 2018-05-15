@@ -1,4 +1,6 @@
 const express = require("express");
+const db = require("../database/db_Functions");
+
 
 const router = express.Router();
 
@@ -11,25 +13,30 @@ router.get("/goodnight", (request, result) => {
 });
 
 router.get("/studentenhuis", (request, result) => {
-    result.json("Hello World!");
+    db.getStudentenhuis();
+    result.json("Success");
 });
 
 router.post("/studentenhuis", (request, result) => {
-    result.json("Hello World!");
+    db.newStudentenhuis("test", "test1", 1)
+    result.json("Success");
 });
 
 router.get("/studentenhuis/:huisId?", (request, result) => {
     const huisId = request.params.huisId;
+    db.getStudentenhuisWithId(huisId);
     result.json(huisId);
 });
 
 router.put("/studentenhuis/:huisId?", (request, result) => {
     const huisId = request.params.huisId;
+    db.updateStudentenhuis("testing", "testing1", 6, 1);
     result.json(huisId);
 });
 
 router.delete("/studentenhuis/:huisId?", (request, result) => {
     const huisId = request.params.huisId;
+    db.deleteStudentenhuis(6, 1)
     result.json(huisId);
 });
 
