@@ -9,12 +9,12 @@ const jwt = require('jwt-simple');
 //
 // Encode (from username to token)
 //
-function encodeToken(username) {
+function encodeToken(email) {
     const playload = {
         exp: moment().add(10, 'days').unix(),
         iat: moment().unix(),
-        sub: username   // or any object you choose!
-    }
+        sub: email   // or any object you choose!
+    };
     return jwt.encode(playload, settings.secretkey)
 }
 
@@ -42,4 +42,4 @@ function decodeToken(token, callback) {
 module.exports = {
     encodeToken,
     decodeToken
-}
+};
