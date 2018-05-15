@@ -14,6 +14,7 @@ router.get("/goodnight", (request, result) => {
     result.json("Goodnight World!");
 });
 
+//Routes for Studentenhuis
 router.post("/studentenhuis", (request, result) => {
     console.log(request.body.name);
     console.log(request.body.adres);
@@ -73,5 +74,55 @@ router.delete("/studentenhuis/:huisId?", (request, result) => {
 
 });
 
+//Routes for Maaltijd
+router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
+    const huisId = request.params.huisId;
+    result.json(huisId);
+});
+
+router.get("/studentenhuis/:huisId?/maaltijd", (request, result) => {
+    const huisId = request.params.huisId;
+    result.json(huisId);
+});
+
+router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId);
+    result.json(maaltijdId);
+});
+
+router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId);
+    result.json(maaltijdId);
+});
+
+router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId);
+    result.json(maaltijdId);
+});
+
+//Routes for Deelnemer
+router.post("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId + ", " + maaltijdId);
+});
+
+router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId + ", " + maaltijdId);
+});
+
+router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
+    const huisId = request.params.huisId;
+    const maaltijdId = request.params.maaltijdId;
+    result.json(huisId + ", " + maaltijdId);
+});
 
 module.exports = router;
