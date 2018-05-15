@@ -38,24 +38,6 @@ exports.Register = function(firstname, lastname, email, password) {
     });
 };
 
-//Studentenhuis functions
-exports.newStudentenhuis = function(name, address, userId, callback) {//
-
-    //POST
-    //Create new studentenhuis with email adn adress gotten from the json body request
-    connection.query("INSERT INTO studentenhuis (Naam, Adres, UserId) VALUES ('" + name + "', '" + address + "', " + userId + ")", (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.log(rows);
-            console.log(rows.insertId);
-            callback(rows);
-        }
-    });
-};
-
 //Deelnemer functions
 exports.newDeelnemer = function (maaltijdId, studentenhuisId, userId, callback) {
     //POST
