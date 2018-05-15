@@ -11,7 +11,7 @@ app.get("*", (req, res, next) => {
 //     res.json("Hello World!");
 // });
 
-app.use("/apiV1", require("./routes/apiV1"));
+app.use("/api", require("./routes/apiV1"));
 
 app.get("*", (req, res) => {
     res.status(200);
