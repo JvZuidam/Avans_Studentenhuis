@@ -1,22 +1,15 @@
 const app = new require("express")();
 
-app.get("*", (req, res, next) => {
-    console.log(req.url);
-    next();
-});
+app.use("/unAuth", require("./routes/unAuth.js"));
 
-// app.get("/api/hello", (req, res) => {
-//     res.status(200);
-//     res.json("Hello World!");
-// });
+app.all("*", AuthController.validateToken);
 
-app.use("/apiV1", require("./routes/apiV1"));
+app.use("/apiV1", require("./routes/apiV1.js"));
 
 app.get("*", (req, res) => {
     res.status(200);
     res.json("Hacker go away!");
 });
-
 
 const port = 8088;
 app.listen(port, () => {
