@@ -115,50 +115,6 @@ exports.deleteStudentenhuis = function (huisId, userId, callback) {
         }
     });
 };
-
-//Deelnemer functions
-exports.newDeelnemer = function (maaltijdId, studentenhuisId, userId) {
-    //POST
-    //Add new deelnemer to maaltijd from Studentenhuis & maaltijd
-    connection.query("INSERT INTO deelnemer (MaaltijdID, StudentenhuisID, UserID) values (" + maaltijdId + ", " + studentenhuisId + ", " + userId + ")", (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-exports.getDeelnemer = function (maaltijdId, studentenhuisId) {
-    //GET
-    //Get deelnemer from maaltijd from Studentenhuis & maaltijd
-    connection.query("SELECT * FROM deelnemer WHERE StudentenhuidID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-exports.deleteDeelnemer = function (maaltijdId, studentenhuisId, userId) {
-    //DELETE
-    //Delete deelnemer from maaltijd from Studentenhuis & maaltijd
-    connection.query("DELETE FROM deelnemer WHERE StudentenhuidID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId + " AND UserID = " + userId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-//Maaltijd functions
 exports.newMaaltijd = function (name, description, ingredients, allergies, costs, userId, studentenhuisId, callback) {
     //POST
     //Create new Maaltijd
@@ -235,3 +191,53 @@ exports.deleteMaaltijd = function (userId, studentenhuisId, maaltijdId, callback
         }
     });
 };
+
+//Deelnemer functions
+exports.newDeelnemer = function (maaltijdId, studentenhuisId, userId, callback) {
+    //POST
+    //Add new deelnemer to maaltijd from Studentenhuis & maaltijd
+    connection.query("INSERT INTO deelnemers (MaaltijdID, StudentenhuisID, UserID) values (" + maaltijdId + ", " + studentenhuisId + ", " + userId + ")", (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.log(rows);
+            console.log(rows.insertId);
+            callback(rows);
+        }
+    });
+};
+
+exports.getDeelnemer = function (maaltijdId, studentenhuisId, callback) {
+    //GET
+    //Get deelnemer from maaltijd from Studentenhuis & maaltijd
+    connection.query("SELECT * FROM deelnemers WHERE StudentenhuisID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.log(rows);
+            console.log(rows.insertId);
+            callback(rows);
+        }
+    });
+};
+
+exports.deleteDeelnemer = function (maaltijdId, studentenhuisId, userId, callback) {
+    //DELETE
+    //Delete deelnemer from maaltijd from Studentenhuis & maaltijd
+    connection.query("DELETE FROM deelnemers WHERE StudentenhuisID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId + " AND UserID = " + userId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.log(rows);
+            console.log(rows.insertId);
+            callback(rows);
+        }
+    });
+};
+//Maaltijd functions
