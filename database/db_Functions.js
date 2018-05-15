@@ -116,78 +116,6 @@ exports.deleteStudentenhuis = function (huisId, userId, callback) {
     });
 };
 
-//Maaltijd functions
-exports.newMaaltijd = function (name, description, ingredients, allergies, costs, userId, studentenhuisId) {
-    //POST
-    //Create new Maaltijd
-    connection.query("INSERT INTO maaltijd (Allergie, Beschrijving, Ingredienten, Naam, Prijs, StudentenhuisID, UserID) VALUES (" + allergies + ", " + description + ", " + ingredients + ", " + name + ", " + costs + ", " + studentenhuisId + ", " + userId  + ")", (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-exports.getAllMaaltijden = function (userId, studentenhuisId) {
-    //GET
-    //Get all maaltijden from studentenhuisId
-    connection.query("SELECT * FROM maaltijd WHERE StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-
-exports.getMaaltijd = function (userId, studentenhuisId, maaltijdId) {
-    //GET
-    //Get maaltijden from studentenhuisId & maaltijdId
-    connection.query("SELECT * FROM maaltijd WHERE ID = " + maaltijdId + " AND  StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-exports.updateMaaltijd = function (name, description, ingredients, allergies, costs, userId, studentenhuisId, maaltijdId) {
-    //PUT
-    //Update the maaltijden from studentenhuisId & maaltijdId
-    connection.query("UPDATE studentenhuis SET Allergie = " + allergies + ", Beschrijving = " + description + ", Ingredienten = " + ingredients + ", Naam = " + name + ", Prijs = " + costs + "WHERE ID = " + maaltijdId + " AND  StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
-exports.deleteMaaltijd = function (userId, studentenhuisId, maaltijdId ) {
-    //DELETE
-    //DELETE the maaltijden from studentenhuisId & maaltijdId
-    connection.query("DELETE FROM maaltijd WHERE ID = " + maaltijdId + " AND StudentenhuisID = " + studentenhuisId + " AND UserId = " + userId, (err, rows, fields) => {
-        if(err) {
-            console.log('Error: ' + err)
-        }
-        if(rows) {
-            console.log('We got rows!');
-            console.dir(rows)
-        }
-    });
-};
-
 //Deelnemer functions
 exports.newDeelnemer = function (maaltijdId, studentenhuisId, userId) {
     //POST
@@ -227,6 +155,83 @@ exports.deleteDeelnemer = function (maaltijdId, studentenhuisId, userId) {
         if(rows) {
             console.log('We got rows!');
             console.dir(rows)
+        }
+    });
+};
+//Maaltijd functions
+exports.newMaaltijd = function (name, description, ingredients, allergies, costs, userId, studentenhuisId, callback) {
+    //POST
+    //Create new Maaltijd
+    connection.query("INSERT INTO maaltijd (Allergie, Beschrijving, Ingredienten, Naam, Prijs, StudentenhuisID, UserID) VALUES ('" + allergies + "', '" + description + "', '" + ingredients + "', '" + name + "', '" + costs + "', " + studentenhuisId + ", " + userId  + ")", (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.log(rows);
+            console.log(rows.insertId);
+            callback(rows);
+        }
+    });
+};
+
+exports.getAllMaaltijden = function (userId, studentenhuisId, callback) {
+    //GET
+    //Get all maaltijden from studentenhuisId
+    connection.query("SELECT * FROM maaltijd WHERE StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.dir(rows);
+            callback(rows);
+        }
+    });
+};
+
+
+exports.getMaaltijd = function (userId, studentenhuisId, maaltijdId, callback) {
+    //GET
+    //Get maaltijden from studentenhuisId & maaltijdId
+    connection.query("SELECT * FROM maaltijd WHERE ID = " + maaltijdId + " AND  StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.dir(rows);
+            callback(rows);
+        }
+    });
+};
+
+exports.updateMaaltijd = function (name, description, ingredients, allergies, costs, userId, studentenhuisId, maaltijdId, callback) {
+    //PUT
+    //Update the maaltijden from studentenhuisId & maaltijdId
+    connection.query("UPDATE maaltijd SET Allergie = '" + allergies + "', Beschrijving = '" + description + "', Ingredienten = '" + ingredients + "', Naam = '" + name + "', Prijs = '" + costs + "' WHERE ID = " + maaltijdId + " AND StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.dir(rows);
+            callback(rows);
+        }
+    });
+};
+
+exports.deleteMaaltijd = function (userId, studentenhuisId, maaltijdId, callback) {
+    //DELETE
+    //DELETE the maaltijden from studentenhuisId & maaltijdId
+    connection.query("DELETE FROM maaltijd WHERE ID = " + maaltijdId + " AND StudentenhuisID = " + studentenhuisId + " AND UserId = " + userId, (err, rows, fields) => {
+        if(err) {
+            console.log('Error: ' + err)
+        }
+        if(rows) {
+            console.log('We got rows!');
+            console.dir(rows);
+            callback(rows);
         }
     });
 };

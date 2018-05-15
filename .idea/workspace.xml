@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6b51aad6-9cd3-46a7-ab24-b5cd745a7e62" name="Default" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/database/db_Functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/db_Functions.js" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -11,6 +12,9 @@
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/apiV1.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/apiV1.js" afterDir="false" />
 >>>>>>> Studentenhuis
+=======
+      <change beforePath="$PROJECT_DIR$/database/db_Functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/database/db_Functions.js" afterDir="false" />
+>>>>>>> Maaltijd
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,16 +32,22 @@
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="85">
               <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
 =======
             <state relative-caret-position="68">
               <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
 >>>>>>> Studentenhuis
+=======
+            <state relative-caret-position="85">
+              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+>>>>>>> Maaltijd
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
 <<<<<<< HEAD
       <file leaf-file-name="db_Functions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/database/db_Functions.js">
@@ -59,16 +69,31 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
               <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+=======
+      <file leaf-file-name="db_Functions.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database/db_Functions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="38" column="2" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="2" />
+>>>>>>> Maaltijd
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="apiV1.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/apiV1.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="510">
               <caret line="30" column="33" lean-forward="true" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
 >>>>>>> Studentenhuis
+=======
+      <file leaf-file-name="apiV1.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/apiV1.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="578">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
+>>>>>>> Maaltijd
             </state>
           </provider>
         </entry>
@@ -98,6 +123,7 @@
       <list>
 <<<<<<< HEAD
         <option value="$PROJECT_DIR$/database/dbConn.js" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/database/studentenhuis_Functions.js" />
         <option value="$PROJECT_DIR$/database/maaltijd_Functions.js" />
@@ -111,6 +137,11 @@
         <option value="$PROJECT_DIR$/database/db_Functions.js" />
         <option value="$PROJECT_DIR$/routes/apiV1.js" />
 >>>>>>> Studentenhuis
+=======
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/routes/apiV1.js" />
+        <option value="$PROJECT_DIR$/database/db_Functions.js" />
+>>>>>>> Maaltijd
       </list>
     </option>
   </component>
@@ -128,6 +159,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds" extendedState="6">
 <<<<<<< HEAD
     <option name="x" value="-564" />
@@ -140,6 +172,13 @@
     <option name="width" value="1546" />
     <option name="height" value="829" />
 >>>>>>> Studentenhuis
+=======
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-376" />
+    <option name="y" value="-12" />
+    <option name="width" value="1546" />
+    <option name="height" value="829" />
+>>>>>>> Maaltijd
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -212,6 +251,7 @@
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="12723000" />
   </component>
   <component name="ToolWindowManager">
@@ -246,6 +286,29 @@
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.24983476" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+=======
+    <option name="totallyTimeSpent" value="7446000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19704953" />
+      <window_info anchor="bottom" id="TODO" order="7" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32905984" />
+      <window_info anchor="bottom" id="Run" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.33113313" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24983476" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+>>>>>>> Maaltijd
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
 <<<<<<< HEAD
@@ -270,7 +333,10 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32905984" />
+<<<<<<< HEAD
 >>>>>>> Studentenhuis
+=======
+>>>>>>> Maaltijd
       <window_info id="Favorites" order="5" side_tool="true" />
     </layout>
   </component>
@@ -634,6 +700,7 @@
       </provider>
     </entry>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/database/authentication_Functions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -675,18 +742,30 @@
         <state relative-caret-position="68">
           <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
 >>>>>>> Studentenhuis
+=======
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+>>>>>>> Maaltijd
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/db_Functions.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="204">
           <caret line="21" column="11" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="11" />
+=======
+        <state relative-caret-position="17">
+          <caret line="38" column="2" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="2" />
+>>>>>>> Maaltijd
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/apiV1.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="85">
           <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
@@ -708,6 +787,10 @@
         <state relative-caret-position="510">
           <caret line="30" column="33" lean-forward="true" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
 >>>>>>> Studentenhuis
+=======
+        <state relative-caret-position="578">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+>>>>>>> Maaltijd
         </state>
       </provider>
     </entry>
