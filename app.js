@@ -19,7 +19,7 @@ app.get("*", (req, res) => {
 });
 
 
-const port = 8088;
+const port = 8080;
 app.listen(port, () => {
     console.log("The magic happens at port " + port);
 });
