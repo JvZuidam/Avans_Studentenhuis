@@ -15,9 +15,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
 
     //
-    console.log("VALIDATE TOKEN")
+    console.log("VALIDATE TOKEN");
 
-    var token = (req.header('X-Access-Token')) || '';
+    const token = (req.header('X-Access-Token')) || '';
 
     auth.decodeToken(token, (err, payload) => {
         if (err) {
@@ -28,7 +28,6 @@ router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
         }
     });
 });
-
 
 //
 // Login with {"username":"<username>", "password":"<password>"}
@@ -65,23 +64,45 @@ router.get("/goodnight", (request, result) => {
 });
 //Routes for Deelnemers
 router.post("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.newDeelnemer(request.params.maaltijdId, request.params.huisId, 1, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            } else {
-                result.status(404).json({
-                    message: "Niet gevonden (huisId bestaat niet)",
-                    code: 404,
-                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+    //TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+
+                db.getDeelnemer(request.params.maaltijdId, request.params.huisId, (rows) => {
+                    if (rows[0].UserID === userId) {
+                        result.status(200);
+                        result.json(rows);
+                    } else {
+                        db.newDeelnemer(request.params.maaltijdId, request.params.huisId, userId, (rows) => {
+                            if (rows) {
+                                result.status(200);
+                                result.json(rows);
+                            } else {
+                                result.status(404).json({
+                                    message: "Niet gevonden (huisId bestaat niet)",
+                                    code: 404,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            }
+                        });
+                    }
                 });
-            }
-        });
-        //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
-    }
+            })
+        }
+    });
 });
 
 router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
@@ -104,23 +125,54 @@ router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request,
 });
 
 router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.deleteDeelnemer(request.params.maaltijdId, request.params.huisId, 1, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            } else {
-                result.status(404).json({
-                    message: "Niet gevonden (huisId bestaat niet)",
-                    code: 404,
-                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+    //TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+                console.log(userId);
+
+                db.getMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
+
+
+                    if(rows[0].UserID = userId) {
+                        db.deleteDeelnemer(request.params.maaltijdId, request.params.huisId, userId, (rows) => {
+                            if (rows) {
+                                result.status(200);
+                                result.json(rows);
+                            } else {
+                                result.status(404).json({
+                                    message: "Niet gevonden (huisId of maaltijdId bestaat niet)",
+                                    code: 404,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            }
+                        });
+
+                    } else {
+                        result.status(409).json({
+                            message: "Conflict (Gebruiker mag deze data niet verwijderen)",
+                            code: 409,
+                            datetime: moment().format("Y-mm-D:hh:mm:ss")
+                        });
+                    }
                 });
-            }
-        });
-        //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
-    }
+
+
+            });
+        }
+    });
 });
 
 
@@ -130,8 +182,8 @@ router.post("/studentenhuis", (request, result) => {
         result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(Object.keys(request.body).length === 0) {
         result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if(!request.body.name.toString() === "" && !request.body.adres.toString() === "") {
-        db.newStudentenhuis(request.body.name, request.body.adres, request.body.id, (rows) => {
+    } else if(!request.body.naam == "" && !request.body.adres == "") {
+        db.newStudentenhuis(request.body.naam, request.body.adres, 1, (rows) => {
             db.getStudentenhuisWithId(rows.insertId, (rows) => {
                 result.status(200);
                 result.json(rows);
@@ -143,6 +195,7 @@ router.post("/studentenhuis", (request, result) => {
 });
 
 router.get("/studentenhuis", (request, result) => {
+
     if(1 == 2) {
         result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
@@ -173,59 +226,172 @@ router.get("/studentenhuis/:huisId?", (request, result) => {
 });
 
 router.put("/studentenhuis/:huisId?", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if(Object.keys(request.body).length === 0) {
-        result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if (!request.body.name.toString() === "" && !request.body.adres.toString() === "") {
-        db.updateStudentenhuis(request.body.name, request.body.adres, request.params.huisId, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            }  else {
-                result.status(404).json({message: "Niet gevonden (huisId bestaat niet)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-            }
-        });
-    } else {
-        result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    }
-    //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
+    //TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+
+                db.getStudentenhuisWithId(request.params.huisId, (rows) => {
+                    if(rows[0].UserID === userId) {
+                        if(Object.keys(request.body).length === 0) {
+                            result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+                        } else if (!request.body.naam == "" && !request.body.adres == "") {
+                            db.updateStudentenhuis(request.body.naam, request.body.adres, request.params.huisId, (rows) => {
+                                if (rows) {
+                                    result.status(200);
+                                    result.json(rows);
+                                }  else {
+                                    result.status(404).json({message: "Niet gevonden (huisId bestaat niet)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+                                }
+                            });
+                        } else {
+                            result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+                        }
+                    } else {
+                        result.status(409).json({
+                            message: "Conflict (Gebruiker mag deze data niet verwijderen)",
+                            code: 409,
+                            datetime: moment().format("Y-mm-D:hh:mm:ss")
+                        });
+                    }
+                });
+            });
+        }
+    });
 });
 
 router.delete("/studentenhuis/:huisId?", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.deleteStudentenhuis(request.params.huisId, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            } else {
-                result.status(404).json({
-                    message: "Niet gevonden (huisId bestaat niet)",
-                    code: 404,
-                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+    //TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+
+                db.getStudentenhuisWithId(request.params.huisId, (rows) => {
+                    if(rows[0].UserID == userId) {
+
+                        db.deleteStudentenhuis(request.params.huisId, userId, (rows) => {
+                            if (rows) {
+                                result.status(200);
+                                result.json(rows);
+                            } else {
+                                result.status(404).json({
+                                    message: "Niet gevonden (huisId bestaat niet)",
+                                    code: 404,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            }
+                        });
+                    } else {
+                        result.status(409).json({
+                            message: "Conflict (Gebruiker mag deze data niet verwijderen)",
+                            code: 409,
+                            datetime: moment().format("Y-mm-D:hh:mm:ss")
+                        });
+                    }
                 });
-            }
-        });
-        //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
-    }
+
+            });
+        }
+    });
 });
 
 //Routes for Meals
 router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        if (Object.keys(request.body).length === 0) {
-            result.status(412).json({
-                message: "Een of meer properties in de request body ontbreken of zijn foutief",
-                code: 412,
+    //TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
                 datetime: moment().format("Y-mm-D:hh:mm:ss")
             });
-        } else if (!request.body.naam.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
-            db.newMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, 1, request.params.huisId, (rows) => {
-                db.getMaaltijd(1, request.params.huisId, rows.insertId, (rows) => {
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+
+                if (Object.keys(request.body).length === 0) {
+                    result.status(412).json({
+                        message: "Een of meer properties in de request body ontbreken of zijn foutief",
+                        code: 412,
+                        datetime: moment().format("Y-mm-D:hh:mm:ss")
+                    });
+                } else if (!request.body.naam.toString() == "" && !request.body.beschrijving.toString() == "" && !request.body.ingredienten.toString() == "" && !request.body.allergie.toString() == "" && !request.body.prijs.toString() == "") {
+                    db.newMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, userId, request.params.huisId, (rows) => {
+                        console.log("inside");
+                        db.getMaaltijd(userId, request.params.huisId, rows.insertId, (rows) => {
+                            if (rows) {
+                                result.status(200);
+                                result.json(rows);
+                            } else {
+                                result.status(404).json({
+                                    message: "Niet gevonden (huisId bestaat niet)",
+                                    code: 404,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            }
+                        })
+                    });
+                } else {
+                    result.status(412).json({
+                        message: "Een of meer properties in de request body ontbreken of zijn foutief",
+                        code: 412,
+                        datetime: moment().format("Y-mm-D:hh:mm:ss")
+                    });
+                }
+            });
+        }
+    });
+});
+
+router.get("/studentenhuis/:huisId?/maaltijd", (request, result) => {
+//TODO
+    const token = (request.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            console.log(payload.sub);
+            console.log("test");
+            db.getUserId(payload.sub, (rows) => {
+                const userId = rows[0].ID;
+
+
+                db.getAllMaaltijden(userId, request.params.huisId, (rows) => {
                     if (rows) {
                         result.status(200);
                         result.json(rows);
@@ -236,83 +402,135 @@ router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
                             datetime: moment().format("Y-mm-D:hh:mm:ss")
                         });
                     }
-                })
-            });
-        } else {
-            result.status(412).json({
-                message: "Een of meer properties in de request body ontbreken of zijn foutief",
-                code: 412,
-                datetime: moment().format("Y-mm-D:hh:mm:ss")
+                });
             });
         }
-    }
-});
+    });
 
-router.get("/studentenhuis/:huisId?/maaltijd", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.getAllMaaltijden(1, request.params.huisId, (rows) => {
-            if (rows) {
+    router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+        if (1 == 2) {
+            result.status(401).json({
+                message: "Niet geautoriseerd (geen valid token)",
+                code: 401,
+                datetime: moment().format("Y-mm-D:hh:mm:ss")
+            });
+        } else {
+            db.getMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
                 result.status(200);
                 result.json(rows);
-            } else {
-                result.status(404).json({
-                    message: "Niet gevonden (huisId bestaat niet)",
-                    code: 404,
+            });
+        }
+    });
+
+    router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+        //TODO
+        const token = (request.header('X-Access-Token')) || '';
+
+        auth.decodeToken(token, (err, payload) => {
+            if (err) {
+                console.log('Error handler: ' + err.message);
+                res.status(401).json({
+                    message: "Niet geautoriseerd (geen valid token)",
+                    code: 401,
                     datetime: moment().format("Y-mm-D:hh:mm:ss")
+                });
+            } else {
+                console.log(payload.sub);
+                console.log("test");
+                db.getUserId(payload.sub, (rows) => {
+                    const userId = rows[0].ID;
+
+
+
+                    db.getMaaltijd(userId, request.params.huisId, request.params.maaltijdId, (rows) => {
+                        if (rows[0].UserID == userId) {
+                            if (Object.keys(request.body).length === 0) {
+                                result.status(412).json({
+                                    message: "Een of meer properties in de request body ontbreken of zijn foutief",
+                                    code: 412,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            } else if (!request.body.naam.toString() == "" && !request.body.beschrijving.toString() == "" && !request.body.ingredienten.toString() == "" && !request.body.allergie.toString() == "" && !request.body.prijs.toString() == "") {
+                                db.updateMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, 1, request.params.huisId, request.params.maaltijdId, (rows) => {
+                                    if (rows) {
+                                        result.status(200);
+                                        result.json(rows);
+                                    } else {
+                                        result.status(404).json({
+                                            message: "Niet gevonden (huisId bestaat niet)",
+                                            code: 404,
+                                            datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                        });
+                                    }
+                                });
+                            } else {
+                                result.status(412).json({
+                                    message: "Een of meer properties in de request body ontbreken of zijn foutief",
+                                    code: 412,
+                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                });
+                            }
+                        } else {
+                            result.status(409).json({
+                                message: "Conflict (Gebruiker mag deze data niet verwijderen)",
+                                code: 409,
+                                datetime: moment().format("Y-mm-D:hh:mm:ss")
+                            });
+                        }
+                    });
+
                 });
             }
         });
-    }
-});
+    });
 
-router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.getMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
-            result.status(200);
-            result.json(rows);
-        });
-    }
-});
+    router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
+        //TODO
+        const token = (request.header('X-Access-Token')) || '';
 
-router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if(Object.keys(request.body).length === 0) {
-        result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if(!request.body.naam.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
-        db.updateMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, 1, request.params.huisId, request.params.maaltijdId, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            }  else {
-                result.status(404).json({message: "Niet gevonden (huisId bestaat niet)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        auth.decodeToken(token, (err, payload) => {
+            if (err) {
+                console.log('Error handler: ' + err.message);
+                res.status(401).json({
+                    message: "Niet geautoriseerd (geen valid token)",
+                    code: 401,
+                    datetime: moment().format("Y-mm-D:hh:mm:ss")
+                });
+            } else {
+                console.log(payload.sub);
+                console.log("test");
+                db.getUserId(payload.sub, (rows) => {
+                    const userId = rows[0].ID;
+
+                    db.getMaaltijd(userId, request.params.huisId, request.params.maaltijdId, (rows) => {
+                        result.status(200);
+                        result.json(rows);
+                        if (rows[0].UserID == userId) {
+                            db.deleteMaaltijd(userid, request.params.huisId, request.params.maaltijdId, (rows) => {
+                                if (rows) {
+                                    result.status(200);
+                                    result.json(rows);
+                                } else {
+                                    result.status(404).json({
+                                        message: "Niet gevonden (huisId bestaat niet)",
+                                        code: 404,
+                                        datetime: moment().format("Y-mm-D:hh:mm:ss")
+                                    });
+                                }
+                            });
+                        } else {
+                            result.status(409).json({
+                                message: "Conflict (Gebruiker mag deze data niet verwijderen)",
+                                code: 409,
+                                datetime: moment().format("Y-mm-D:hh:mm:ss")
+                            });
+                        }
+                    });
+
+
+                });
             }
         });
-    } else {
-    result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    }
-    //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
-
+    });
 });
-
-router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
-    if(1 == 2) {
-        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else {
-        db.deleteMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
-            if (rows) {
-                result.status(200);
-                result.json(rows);
-            }  else {
-                result.status(404).json({message: "Niet gevonden (huisId bestaat niet)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-            }
-        });
-    }
-    //TODO; 409 Indicates that the request could not be processed because of conflict in the request, such as an edit conflict between multiple simultaneous updates.
-});
-
 module.exports = router;

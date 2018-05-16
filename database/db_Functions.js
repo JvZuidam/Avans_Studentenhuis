@@ -7,6 +7,13 @@ const connection = mysql.createConnection({
     database: 'studentenhuis'
 });
 
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'usbw',
+//     database: 'studentenhuis'
+// });
+
 connection.connect();
 
 //Auth functions
@@ -28,6 +35,20 @@ exports.Login = function(email, password, callback) {
                 callback(rows, rows[0].Email, rows[0].Password)
             }
         }
+    });
+};
+
+exports.getUserId = function(email, callback) {
+    connection.query("SELECT ID FROM user WHERE email = '" + email + "'", (err,rows,fields) => {
+       if(err) {
+           console.log('Error: ' + err);
+           callback(err)
+       }
+       if(rows) {
+           console.log('We got rows!');
+           console.dir(rows)
+           callback(rows)
+       }
     });
 };
 
@@ -169,7 +190,7 @@ exports.getMaaltijd = function (userId, studentenhuisId, maaltijdId, callback) {
     connection.query("SELECT * FROM maaltijd WHERE ID = " + maaltijdId + " AND  StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
-            callback(err)
+
         }
         if(rows) {
             console.log('We got rows!');
