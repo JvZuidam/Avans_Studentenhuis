@@ -1,9 +1,7 @@
-/**
- * Testcases aimed at testing the authentication process. 
- */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
+const assert = require('assert')
 
 chai.should();
 chai.use(chaiHttp);
@@ -25,59 +23,59 @@ describe('Registration', () => {
         // module.exports = {
         //     token: validToken
         // }
-        done()
-    })
+        done();
+    });
 
     it('should return an error on GET request', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when the user already exists', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when no firstname is provided', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when firstname is shorter than 2 chars', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when no lastname is provided', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when lastname is shorter than 2 chars', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when email is invalid', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
-})
+});
 
 describe('Login', () => {
 
@@ -85,28 +83,28 @@ describe('Login', () => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when email does not exist', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when email exists but password is invalid', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
     it('should throw an error when using an invalid email', (done) => {
         //
         // Hier schrijf je jouw testcase.
         //
-        done()
-    })
+        done();
+    });
 
-})
+});
