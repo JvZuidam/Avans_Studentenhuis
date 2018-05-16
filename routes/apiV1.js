@@ -98,22 +98,15 @@ router.post("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request
             db.getUserId(payload.sub, (rows) => {
                 const userId = rows[0].ID;
 
-                db.getDeelnemer(request.params.maaltijdId, request.params.huisId, (rows) => {
-                    if (rows[0].UserID === userId) {
+                db.newDeelnemer(request.params.maaltijdId, request.params.huisId, userId, (rows) => {
+                    if (rows) {
                         result.status(200);
                         result.json(rows);
                     } else {
-                        db.newDeelnemer(request.params.maaltijdId, request.params.huisId, userId, (rows) => {
-                            if (rows) {
-                                result.status(200);
-                                result.json(rows);
-                            } else {
-                                result.status(404).json({
-                                    message: "Niet gevonden (huisId bestaat niet)",
-                                    code: 404,
-                                    datetime: moment().format("Y-mm-D:hh:mm:ss")
-                                });
-                            }
+                        result.status(404).json({
+                            message: "Niet gevonden (huisId bestaat niet)",
+                            code: 404,
+                            datetime: moment().format("Y-mm-D:hh:mm:ss")
                         });
                     }
                 });
