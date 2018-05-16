@@ -10,30 +10,34 @@ const connection = mysql.createConnection({
 connection.connect();
 
 //Auth functions
-exports.Login = function(email, password) {
+exports.Login = function(email, password, callback) {
     //POST
     //login the user
     connection.query(" SELECT * FROM user WHERE email = " + email + " AND password = " + password, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
             console.dir(rows)
+            callback(rows)
         }
     });
 };
 
-exports.Register = function(firstname, lastname, email, password) {
+exports.Register = function(firstname, lastname, email, password, callback) {
     //POST
     //Register the user
     connection.query("INSERT INTO user (Voornaam, Achternaam, Email, Password) VALUES (" + firstname + ", " + lastname + ", " + email + ", " + password + ")", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
             console.dir(rows)
+            callback(rows)
         }
     });
 };
@@ -46,6 +50,7 @@ exports.newStudentenhuis = function(name, address, userId, callback) {//
     connection.query("INSERT INTO studentenhuis (Naam, Adres, UserId) VALUES ('" + name + "', '" + address + "', " + userId + ")", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -62,6 +67,7 @@ exports.getStudentenhuis = function (callback) {
     connection.query("SELECT * FROM studentenhuis", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -77,6 +83,7 @@ exports.getStudentenhuisWithId = function (huisId, callback) {
     connection.query("SELECT * FROM studentenhuis WHERE ID = " + huisId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -92,6 +99,7 @@ exports.updateStudentenhuis = function (name, address, huisId, callback) {
     connection.query("UPDATE studentenhuis SET Naam = '" + name + "', Adres = '" + address + "' WHERE ID = " + huisId + " AND UserId = " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -107,6 +115,7 @@ exports.deleteStudentenhuis = function (huisId, userId, callback) {
     connection.query("DELETE FROM studentenhuis WHERE ID = " + huisId + " AND UserId = " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -121,6 +130,7 @@ exports.newMaaltijd = function (name, description, ingredients, allergies, costs
     connection.query("INSERT INTO maaltijd (Allergie, Beschrijving, Ingredienten, Naam, Prijs, StudentenhuisID, UserID) VALUES ('" + allergies + "', '" + description + "', '" + ingredients + "', '" + name + "', '" + costs + "', " + studentenhuisId + ", " + userId  + ")", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -137,6 +147,7 @@ exports.getAllMaaltijden = function (userId, studentenhuisId, callback) {
     connection.query("SELECT * FROM maaltijd WHERE StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -153,6 +164,7 @@ exports.getMaaltijd = function (userId, studentenhuisId, maaltijdId, callback) {
     connection.query("SELECT * FROM maaltijd WHERE ID = " + maaltijdId + " AND  StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -168,6 +180,7 @@ exports.updateMaaltijd = function (name, description, ingredients, allergies, co
     connection.query("UPDATE maaltijd SET Allergie = '" + allergies + "', Beschrijving = '" + description + "', Ingredienten = '" + ingredients + "', Naam = '" + name + "', Prijs = '" + costs + "' WHERE ID = " + maaltijdId + " AND StudentenhuisID = " + studentenhuisId + " AND UserID =  " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -183,6 +196,7 @@ exports.deleteMaaltijd = function (userId, studentenhuisId, maaltijdId, callback
     connection.query("DELETE FROM maaltijd WHERE ID = " + maaltijdId + " AND StudentenhuisID = " + studentenhuisId + " AND UserId = " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -199,6 +213,7 @@ exports.newDeelnemer = function (maaltijdId, studentenhuisId, userId, callback) 
     connection.query("INSERT INTO deelnemers (MaaltijdID, StudentenhuisID, UserID) values (" + maaltijdId + ", " + studentenhuisId + ", " + userId + ")", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -215,6 +230,7 @@ exports.getDeelnemer = function (maaltijdId, studentenhuisId, callback) {
     connection.query("SELECT * FROM deelnemers WHERE StudentenhuisID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
@@ -231,6 +247,7 @@ exports.deleteDeelnemer = function (maaltijdId, studentenhuisId, userId, callbac
     connection.query("DELETE FROM deelnemers WHERE StudentenhuisID = " + studentenhuisId + " AND MaaltijdID = " + maaltijdId + " AND UserID = " + userId, (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
+            callback(err)
         }
         if(rows) {
             console.log('We got rows!');
