@@ -1,7 +1,7 @@
-const server = new require("express")();
+const app = new require("express")();
 
 
-server.get("*", (req, res, next) => {
+app.get("*", (req, res, next) => {
     console.log(req.url);
     next();
 });
@@ -11,15 +11,15 @@ server.get("*", (req, res, next) => {
 //     res.json("Hello World!");
 // });
 
-server.use("/api", require("./routes/apiV1"));
+app.use("/api", require("./routes/apiV1"));
 
-server.get("*", (req, res) => {
+app.get("*", (req, res) => {
     res.status(200);
     res.json("Hacker go away!");
 });
 
 
 const port = 8088;
-server.listen(port, () => {
+app.listen(port, () => {
     console.log("The magic happens at port " + port);
 });
