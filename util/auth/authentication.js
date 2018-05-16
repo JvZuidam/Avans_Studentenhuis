@@ -7,7 +7,7 @@ const moment = require('moment');
 const jwt = require('jwt-simple');
 
 //
-// Encode (from username to token)
+// Encode (from email to token)
 //
 function encodeToken(email) {
     const playload = {
@@ -22,7 +22,7 @@ function encodeToken(email) {
 // Decode (from token to username)
 //
 function decodeToken(token, callback) {
-
+    console.log("inside");
     try {
         const payload = jwt.decode(token, settings.secretkey);
 

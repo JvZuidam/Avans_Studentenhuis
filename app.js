@@ -1,11 +1,13 @@
-const app = new require("express")();
-const AuthController = require('./controllers/authentication.controller')
+const app = new require("express");
+const AuthController = require("./controllers/authentication.controller.js");
+const unAuth = require("./routes/unAuth.js");
+const Auth = require("./routes/apiV1.js");
 
-app.use("/unAuth", require("./routes/unAuth.js"));
+app.use("/app", unAuth);
 
 app.all("*", AuthController.validateToken);
 
-app.use("/apiV1", require("./routes/apiV1.js"));
+app.use("/app", Auth);
 
 app.use('*', function (req, res, next) {
     const error = new ApiError("Deze endpoint bestaat niet", 404);
