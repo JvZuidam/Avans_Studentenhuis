@@ -6,11 +6,6 @@ app.get("*", (req, res, next) => {
     next();
 });
 
-// app.get("/api/hello", (req, res) => {
-//     res.status(200);
-//     res.json("Hello World!");
-// });
-
 app.use("/api", require("./routes/apiV1"));
 
 app.get("*", (req, res) => {
