@@ -2,10 +2,59 @@ const express = require("express");
 const moment = require("moment");
 const db = require("../database/db_Functions");
 const bodyParser = require('body-parser');
+const auth =  require('../auth/authentication');
 const router = express.Router();
 
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: true }));
+
+
+//
+// Catch all except login
+//
+router.all( new RegExp("[^(\/login)]"), function (req, res, next) {
+
+    //
+    console.log("VALIDATE TOKEN")
+
+    var token = (req.header('X-Access-Token')) || '';
+
+    auth.decodeToken(token, (err, payload) => {
+        if (err) {
+            console.log('Error handler: ' + err.message);
+            res.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        } else {
+            next();
+        }
+    });
+});
+
+
+//
+// Login with {"username":"<username>", "password":"<password>"}
+//
+router.route('/login')
+
+    .post( function(req, res) {
+
+        //
+        // Get body params or ''
+        //
+        const email = req.body.email;
+        const password = req.body.password;
+
+        //
+        // Check in datasource for email & password combo.
+        //
+        //
+        db.Login(email, password, (rows, email, password) => {
+            if( rows ) {
+                res.status(200).json({"token" : auth.encodeToken(email), "email" : email});
+            } else {
+                res.status(401).json({"error":"Invalid credentials, bye"})
+            }
+        });
+    });
 
 router.get("/hello", (request, result) => {
     result.json("Hello World!");
@@ -174,7 +223,7 @@ router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
                 code: 412,
                 datetime: moment().format("Y-mm-D:hh:mm:ss")
             });
-        } else if (!request.body.name.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
+        } else if (!request.body.naam.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
             db.newMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, 1, request.params.huisId, (rows) => {
                 db.getMaaltijd(1, request.params.huisId, rows.insertId, (rows) => {
                     if (rows) {
@@ -234,7 +283,7 @@ router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) =>
         result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(Object.keys(request.body).length === 0) {
         result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
-    } else if(!request.body.name.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
+    } else if(!request.body.naam.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
         db.updateMaaltijd(request.body.naam, request.body.beschrijving, request.body.ingredienten, request.body.allergie, request.body.prijs, 1, request.params.huisId, request.params.maaltijdId, (rows) => {
             if (rows) {
                 result.status(200);

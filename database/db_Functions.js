@@ -13,15 +13,20 @@ connection.connect();
 exports.Login = function(email, password, callback) {
     //POST
     //login the user
-    connection.query(" SELECT * FROM user WHERE email = " + email + " AND password = " + password, (err, rows, fields) => {
+    connection.query(" SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'" , (err, rows, fields) => {
         if(err) {
-            console.log('Error: ' + err)
+            console.log('Error: ' + err);
             callback(err)
         }
         if(rows) {
             console.log('We got rows!');
-            console.dir(rows)
-            callback(rows)
+            console.dir(rows);
+            console.log(rows[0].Email);
+            if(rows[0].Email.toString === "") {
+                callback(err);
+            } else {
+                callback(rows, rows[0].Email, rows[0].Password)
+            }
         }
     });
 };

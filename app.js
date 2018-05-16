@@ -1,7 +1,14 @@
 const app = new require("express")();
+const config = require('./config.json');
+const bodyParser = require('body-parser');
+
+app.set('SECRET_KEY', config.secretkey);
+
+app.use(bodyParser.urlencoded({ extended:true }));
+app.use(bodyParser.json());
 
 
-app.get("*", (req, res, next) => {
+app.all("*", (req, res, next) => {
     console.log(req.url);
     next();
 });
