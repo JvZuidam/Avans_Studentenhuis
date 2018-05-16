@@ -17,7 +17,7 @@ router.get("/goodnight", (request, result) => {
 //Routes for Deelnemers
 router.post("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.newDeelnemer(request.params.maaltijdId, request.params.huisId, 1, (rows) => {
             if (rows) {
@@ -37,7 +37,7 @@ router.post("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request
 
 router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.getDeelnemer(request.params.maaltijdId, request.params.huisId, (rows) => {
             if (rows) {
@@ -56,7 +56,7 @@ router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request,
 
 router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.deleteDeelnemer(request.params.maaltijdId, request.params.huisId, 1, (rows) => {
             if (rows) {
@@ -78,7 +78,7 @@ router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?/deelnemers", (reque
 //Routes for Studentenhuis
 router.post("/studentenhuis", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(Object.keys(request.body).length === 0) {
         result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(!request.body.name.toString() === "" && !request.body.adres.toString() === "") {
@@ -95,7 +95,7 @@ router.post("/studentenhuis", (request, result) => {
 
 router.get("/studentenhuis", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.getStudentenhuis((rows) => {
             result.status(200);
@@ -106,7 +106,7 @@ router.get("/studentenhuis", (request, result) => {
 
 router.get("/studentenhuis/:huisId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.getStudentenhuisWithId(request.params.huisId, (rows) => {
             if (rows) {
@@ -125,7 +125,7 @@ router.get("/studentenhuis/:huisId?", (request, result) => {
 
 router.put("/studentenhuis/:huisId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(Object.keys(request.body).length === 0) {
         result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if (!request.body.name.toString() === "" && !request.body.adres.toString() === "") {
@@ -145,7 +145,7 @@ router.put("/studentenhuis/:huisId?", (request, result) => {
 
 router.delete("/studentenhuis/:huisId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.deleteStudentenhuis(request.params.huisId, (rows) => {
             if (rows) {
@@ -166,7 +166,7 @@ router.delete("/studentenhuis/:huisId?", (request, result) => {
 //Routes for Meals
 router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         if (Object.keys(request.body).length === 0) {
             result.status(412).json({
@@ -201,7 +201,7 @@ router.post("/studentenhuis/:huisId?/maaltijd", (request, result) => {
 
 router.get("/studentenhuis/:huisId?/maaltijd", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.getAllMaaltijden(1, request.params.huisId, (rows) => {
             if (rows) {
@@ -220,7 +220,7 @@ router.get("/studentenhuis/:huisId?/maaltijd", (request, result) => {
 
 router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.getMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
             result.status(200);
@@ -231,7 +231,7 @@ router.get("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) =>
 
 router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(Object.keys(request.body).length === 0) {
         result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else if(!request.body.name.toString() === "" && !request.body.beschrijving.toString() === "" && !request.body.ingredienten.toString() === "" && !request.body.allergie.toString() === "" && !request.body.prijs.toString() === "") {
@@ -252,7 +252,7 @@ router.put("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) =>
 
 router.delete("/studentenhuis/:huisId?/maaltijd/:maaltijdId?", (request, result) => {
     if(1 == 2) {
-        result.status(404).json({message: "Niet geautoriseerd (geen valid token)", code: 404, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        result.status(401).json({message: "Niet geautoriseerd (geen valid token)", code: 401, datetime: moment().format("Y-mm-D:hh:mm:ss")});
     } else {
         db.deleteMaaltijd(1, request.params.huisId, request.params.maaltijdId, (rows) => {
             if (rows) {

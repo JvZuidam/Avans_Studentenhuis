@@ -16,9 +16,3 @@ app.get("*", (req, res) => {
     res.status(200);
     res.json("Hacker go away!");
 });
-
-
-const port = 8088;
-app.listen(port, () => {
-    console.log("The magic happens at port " + port);
-});
