@@ -55,7 +55,7 @@ exports.getUserId = function(email, callback) {
 exports.Register = function(firstname, lastname, email, password, callback) {
     //POST
     //Register the user
-    connection.query("INSERT INTO user (Voornaam, Achternaam, Email, Password) VALUES (" + firstname + ", " + lastname + ", " + email + ", " + password + ")", (err, rows, fields) => {
+    connection.query("INSERT INTO user (Voornaam, Achternaam, Email, Password) VALUES ('" + firstname + "', '" + lastname + "', '" + email + "', '" + password + "')", (err, rows, fields) => {
         if(err) {
             console.log('Error: ' + err)
             callback(err)

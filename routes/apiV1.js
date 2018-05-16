@@ -55,6 +55,23 @@ router.route('/login')
         });
     });
 
+router.route('/register')
+
+    .post( function(request, result) {
+
+        if(Object.keys(request.body).length === 0) {
+            result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        } else if(!request.body.firstname == "" && !request.body.lastname == "" && !request.body.email == "" && !request.body.password == "") {
+            db.Register(request.body.firstname, request.body.lastname, request.body.email, request.body.password, (rows) => {
+                result.status(200);
+                result.json(rows);
+            });
+        } else {
+            result.status(412).json({message: "Een of meer properties in de request body ontbreken of zijn foutief", code: 412, datetime: moment().format("Y-mm-D:hh:mm:ss")});
+        }
+});
+
+
 router.get("/hello", (request, result) => {
     result.json("Hello World!");
 });
